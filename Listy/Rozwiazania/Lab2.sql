@@ -12,3 +12,6 @@ SELECT * FROM Telco_Wroclaw.dbo.TelcoUser ORDER BY Surname
 
 /* Lab2_5 */
 SELECT * FROM Telco_Wroclaw.dbo.TelcoUser WHERE Address_City like 'Wroclaw'
+
+/* Lab2_6 */
+SELECT * FROM Telco_Wroclaw.dbo.TelcoUser WHERE CONTAINS(Email, 'interia.pl')
