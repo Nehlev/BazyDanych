@@ -1,4 +1,6 @@
 SELECT * FROM Uczelnia.dbo.Pracownik
+SELECT * FROM Uczelnia.dbo.Student
+SELECT * FROM Uczelnia.dbo.Grupa
 SELECT * FROM Uczelnia.dbo.OddzialUczelni
 
 /* Lab3_2 */
@@ -11,6 +13,5 @@ SELECT DISTINCT Nazwa FROM Uczelnia.dbo.OddzialUczelni LHS LEFT JOIN Uczelnia.db
 ON LHS.IdOddzialu=RHS.IdOddzialu WHERE RHS.Nazwisko IS NULL
 
 /* Lab3_4 */
-SELECT Dupa.Nazwisko, Dupa.IdGrupy
-FROM Uczelnia.dbo.Student as Dupa 
-RIGHT JOIN grupa Cycki on Dupa.IdGrupy = Cycki.IdGrupy
+SELECT LHS.Nazwisko, RHS.IdGrupy FROM Uczelnia.dbo.Student LHS RIGHT JOIN Uczelnia.dbo.Grupa RHS
+ON LHS.IdGrupy=RHS.IdGrupy

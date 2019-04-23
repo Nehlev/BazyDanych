@@ -3,3 +3,9 @@ JOIN:
 The multi-part identifier "Student.IdGrupy" could not be bound
 Trzeba nadac lokalna nazwe tabelom w ktorych wystepuje wspolna kolumna
 "SELECT DISTINCT Nazwa FROM Uczelnia.dbo.OddzialUczelni LHS LEFT JOIN Uczelnia.dbo.Pracownik RHS"
+
+- LEFT vs RIGHT JOIN
+LEFT JOIN: This join returns all the rows of the table on the left side of the join and matching rows for the table on the right side of join. The rows for which there is no matching row on right side, the result-set will contain null. LEFT JOIN is also known as LEFT OUTER JOIN.
+
+RIGHT JOIN: RIGHT JOIN is similar to LEFT JOIN. This join returns all the rows of the table on the right side of the join and matching rows for the table 
+on the left side of join. The rows for which there is no matching row on left side, the result-set will contain null. RIGHT JOIN is also known as RIGHT OUTER JOIN
