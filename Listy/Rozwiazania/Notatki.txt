@@ -1,0 +1,5 @@
+JOIN:
+- Msg 4104, Level 16, State 1, Line 19
+The multi-part identifier "Student.IdGrupy" could not be bound
+Trzeba nadac lokalna nazwe tabelom w ktorych wystepuje wspolna kolumna
+"SELECT DISTINCT Nazwa FROM Uczelnia.dbo.OddzialUczelni LHS LEFT JOIN Uczelnia.dbo.Pracownik RHS"

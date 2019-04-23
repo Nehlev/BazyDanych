@@ -7,15 +7,10 @@ FROM Uczelnia.dbo.Pracownik as LHS INNER JOIN Uczelnia.dbo.OddzialUczelni as RHS
 ON LHS.IdOddzialu = RHS.IdOddzialu
 
 /* Lab3_3 */
-SELECT Nazwa
-FROM Uczelnia.dbo.OddzialUczelni WHERE NOT EXISTS 
-(SELECT * FROM Uczelnia.dbo.Pracownik WHERE Uczelnia.dbo.OddzialUczelni.IdOddzialu = Uczelnia.dbo.Pracownik.IdOddzialu)
+SELECT DISTINCT Nazwa FROM Uczelnia.dbo.OddzialUczelni LHS LEFT JOIN Uczelnia.dbo.Pracownik RHS
+ON LHS.IdOddzialu=RHS.IdOddzialu WHERE RHS.Nazwisko IS NULL
 
-SELECT * FROM Uczelnia.dbo.Student
-SELECT * FROM Uczelnia.dbo.Grupa
-
-SELECT Nazwisko, IdGrupy FROM Uczelnia.dbo.Student
-
-SELECT Nazwisko, Student.IdGrupy
-FROM Uczelnia.dbo.Student as LHS FULL OUTER JOIN Uczelnia.dbo.Grupa as RHS
-ON LHS.IdGrupy = RHS.IdGrupy
+/* Lab3_4 */
+SELECT Dupa.Nazwisko, Dupa.IdGrupy
+FROM Uczelnia.dbo.Student as Dupa 
+RIGHT JOIN grupa Cycki on Dupa.IdGrupy = Cycki.IdGrupy
