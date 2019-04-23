@@ -9,3 +9,6 @@ LEFT JOIN: This join returns all the rows of the table on the left side of the j
 
 RIGHT JOIN: RIGHT JOIN is similar to LEFT JOIN. This join returns all the rows of the table on the right side of the join and matching rows for the table 
 on the left side of join. The rows for which there is no matching row on left side, the result-set will contain null. RIGHT JOIN is also known as RIGHT OUTER JOIN
+
+- INNER JOIN
+Przechodzenie po kluczu do innej tabeli
