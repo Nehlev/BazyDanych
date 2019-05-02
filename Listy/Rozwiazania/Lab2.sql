@@ -1,5 +1,6 @@
 /* Lab2_1 */
 SELECT * FROM Uczelnia.dbo.Student
+SELECT * FROM Uczelnia.dbo.Grupa
 
 /* Lab2_2 */
 SELECT Imie, Nazwisko FROM Uczelnia.dbo.Student
