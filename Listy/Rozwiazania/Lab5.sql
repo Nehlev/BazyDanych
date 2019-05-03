@@ -1,3 +1,4 @@
+/* Lab 5_1 */
 DROP TABLE [TypSali]
 DROP PROC TypSali_wstawianie
 
@@ -25,5 +26,19 @@ EXEC TypSali_wstawianie 'LAB', 'Laboratoryjna'
 EXEC TypSali_wstawianie 'WYK', 'Wyk³adowa'
 GO
 
-SELECT * FROM TypSali
+/* Lab 5_2 */
+DROP TABLE [Sala]
+CREATE TABLE [Sala] (
+	[IdSali] [int] NOT NULL,
+	[IdOddzialu] [tinyint] NOT NULL,
+	[Pojemnosc] [int] NOT NULL,
+	[KodTyp] [char] (3) NOT NULL
+) ON [PRIMARY]
+GO
 
+ALTER TABLE [Sala] WITH NOCHECK ADD
+	CONSTRAINT [PK_Sala] PRIMARY KEY CLUSTERED
+	(
+		[IdSali]
+	) ON [PRIMARY]
+GO
