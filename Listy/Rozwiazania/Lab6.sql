@@ -80,3 +80,10 @@ INSERT INTO [dbo].[Student]
 UPDATE [dbo].[Student]
 SET Telefon = '123-456-789'
 WHERE Telefon = 'Brak.' or Telefon =''
+
+SELECT * FROM Pracownik
+
+/* Lab 6_5 */
+UPDATE [dbo].[Pracownik]
+SET KodPocztowy = '59-200'
+WHERE Miejscowosc='Legnica' and KodPocztowy=''
