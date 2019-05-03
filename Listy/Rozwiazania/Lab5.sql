@@ -31,16 +31,37 @@ CREATE TABLE [dbo].[Sala] (
 ) ON [PRIMARY]
 GO
 
+/* Lab 5_3 */
 ALTER TABLE [dbo].[Sala] ADD
 	CONSTRAINT [FK_Sala_IdOddzialu] FOREIGN KEY
 	(
 		[IdOddzialu]
-	) REFERENCES OddzialUczelni(IdOddzialu)
-GO
+	) REFERENCES OddzialUczelni(IdOddzialu),
 
-ALTER TABLE [dbo].[Sala] ADD
 	CONSTRAINT [FK_Sala_KodTyp] FOREIGN KEY
 	(
 		[KodTyp]
 	) REFERENCES TypSali(KodTyp)
+GO
+
+/* Lab 5_4 */
+DROP TABLE [dbo].[SalaPrzydzial]
+CREATE TABLE [dbo].[SalaPrzydzial] (
+	[IdPrzydzialu] [int] NOT NULL,
+	[IdSali] [int] NOT NULL
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[SalaPrzydzial] ADD
+	CONSTRAINT [FK_SalaPrzydzial_IdPrzydzialu] FOREIGN KEY
+	(
+		[IdPrzydzialu]
+	) REFERENCES ProwadzacyPrzedmiot(IdPrzydzialu)
+	ON UPDATE CASCADE,
+
+	CONSTRAINT [FK_SalaPrzydzial_IdSali] FOREIGN KEY
+	(
+		[IdSali]
+	) REFERENCES Sala(IdSali)
+	ON UPDATE CASCADE
 GO
