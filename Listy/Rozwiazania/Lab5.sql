@@ -57,11 +57,16 @@ ALTER TABLE [dbo].[SalaPrzydzial] ADD
 	(
 		[IdPrzydzialu]
 	) REFERENCES ProwadzacyPrzedmiot(IdPrzydzialu)
+	ON DELETE NO ACTION
 	ON UPDATE CASCADE,
 
 	CONSTRAINT [FK_SalaPrzydzial_IdSali] FOREIGN KEY
 	(
 		[IdSali]
 	) REFERENCES Sala(IdSali)
+	ON DELETE NO ACTION
 	ON UPDATE CASCADE
 GO
+
+/* To drop FOREIGN KEY */
+/* ALTER TABLE [dbo].[SalaPrzydzial] DROP CONSTRAINT FK_SalaPrzydzial_IdPrzydzialu */
