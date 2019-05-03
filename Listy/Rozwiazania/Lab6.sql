@@ -1,6 +1,5 @@
 /* Potrzebna jest tabela o nazwie Sala z Listy 5 */
 /* Lab 6_1 */
-/* Oddzial 1 */
 INSERT INTO [dbo].[Sala](IdOddzialu, IdSali, Pojemnosc, KodTyp) VALUES
 ('1', '1', '20', 'LAB'),
 ('1', '2', '25', 'LAB'),
@@ -17,4 +16,14 @@ INSERT INTO [dbo].[Sala](IdOddzialu, IdSali, Pojemnosc, KodTyp) VALUES
 ('3', '11', '60', 'WYK'),
 ('3', '12', '60', 'WYK')
 
-SELECT * FROM [dbo].[Sala]
+
+/* Lab 6_2 */
+INSERT INTO [dbo].[Grupa](IdOddzialu, IdGrupy, RokRozpoczecia, Starosta, NrGrupy) VALUES
+('1', '5', '2019', NULL, '5DE inf'),
+('1', '6', '2019', NULL, '5DF inf'),
+
+('2', '7', '2019', NULL, '5DG inf'),
+('2', '8', '2019', NULL, '5DH inf'),
+
+('3', '9', '2019', NULL, '5DI inf'),
+('3', '10', '2019', NULL, '5DJ inf')
