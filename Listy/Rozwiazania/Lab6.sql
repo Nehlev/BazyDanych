@@ -75,3 +75,8 @@ INSERT INTO [dbo].[Student]
 ('10', 30, 'Nowak', 'Dawid', '90102000027', '000-000-00-27', 'ul. Sienkiewicza 1/27', 'Wroc³aw', '53-234', '+48-000-000-027', 'dawid.nowak@wsiz.pl', CONVERT(DATETIME, '2019-05-03 00:00:00', 102), '', '', '1'),
 ('10', 31, 'Nowak', 'Eugeniusz', '90102000028', '000-000-00-28', 'ul. Sienkiewicza 1/28', 'Wroc³aw', '53-234', '+48-000-000-028', 'eugeniusz.nowak@wsiz.pl', CONVERT(DATETIME, '2019-05-03 00:00:00', 102), '', '', '1'),
 ('10', 32, 'Nowak', 'Filip', '90102000029', '000-000-00-29', 'ul. Sienkiewicza 1/29', 'Wroc³aw', '53-234', '+48-000-000-029', 'filip.nowak@wsiz.pl', CONVERT(DATETIME, '2019-05-03 00:00:00', 102), '', '', '1')
+
+/* Lab 6_4 */
+UPDATE [dbo].[Student]
+SET Telefon = '123-456-789'
+WHERE Telefon = 'Brak.' or Telefon =''
