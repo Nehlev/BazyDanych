@@ -331,7 +331,7 @@ ALTER TABLE [dbo].[Zaliczenie] ADD
 		[IdZapisu]
 	) REFERENCES [dbo].[Zapisy] (
 		[IdZapisu]
-	)
+	) ON DELETE CASCADE
 GO
 
 ALTER TABLE [dbo].[Zapisy] ADD 
@@ -346,7 +346,7 @@ ALTER TABLE [dbo].[Zapisy] ADD
 		[NrIndeksu]
 	) REFERENCES [dbo].[Student] (
 		[NrIndeksu]
-	)
+	) ON DELETE CASCADE
 GO
 
 SET QUOTED_IDENTIFIER ON 

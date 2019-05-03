@@ -30,10 +30,6 @@ INSERT INTO [dbo].[Grupa](IdOddzialu, IdGrupy, RokRozpoczecia, Starosta, NrGrupy
 
 
 /* Lab 6_3 */
-SELECT * FROM Grupa
-SELECT * FROM OddzialUczelni
-SELECT * FROM Student
-
 INSERT INTO [dbo].[Student]
 (IdGrupy, NrIndeksu, Nazwisko, Imie, PESEL, NIP, Adres, Miejscowosc, KodPocztowy, Telefon, Email, DataZapisania, DataWypisania, PoprzedniOddzial, IdOddzialu) VALUES
 ('1', 6, 'Kowalski', 'Jan', '90102000000', '000-000-00-00', 'ul. Sienkiewicza 1/1', 'Wroc³aw', '53-234', '+48-000-000-000', 'jan.kowalski@wsiz.pl', CONVERT(DATETIME, '2019-05-03 00:00:00', 102), '', '', '1'),
@@ -86,9 +82,6 @@ UPDATE [dbo].[Pracownik]
 SET KodPocztowy = '59-200'
 WHERE Miejscowosc='Legnica' and KodPocztowy=''
 
-SELECT * FROM Student
-SELECT * FROM Grupa
-
 /* Lab 6_6 */
 UPDATE [dbo].[Grupa]
 SET Starosta = 1
@@ -101,3 +94,32 @@ WHERE IdOddzialu=2
 UPDATE [dbo].[Grupa]
 SET Starosta = 12
 WHERE IdOddzialu=3
+
+/* Lab 6_7 */
+DELETE FROM [dbo].[Student]
+WHERE Miejscowosc != 'Wroc³aw'
+
+/*
+Nie mo¿na kasowaæ rekordów powi¹zanych, a jak ju¿ to trzeba zdefiniowaæ zachowanie na tak¹ sytuacjê
+
+Trzeba bylo zmienic zachowanie na kasowanie dla kluczow obcych
+
+ALTER TABLE [dbo].[Zaliczenie] ADD
+	CONSTRAINT [FK_Zaliczenie_Zapisy] FOREIGN KEY 
+	(
+		[IdZapisu]
+	) REFERENCES [dbo].[Zapisy] (
+		[IdZapisu]
+	) ON DELETE CASCADE
+GO
+
+ALTER TABLE [dbo].[Zapisy] ADD 
+	CONSTRAINT [FK_Zapisy_Student] FOREIGN KEY 
+	(
+		[NrIndeksu]
+	) REFERENCES [dbo].[Student] (
+		[NrIndeksu]
+	) ON DELETE CASCADE
+GO
+
+*/
