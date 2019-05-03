@@ -81,9 +81,23 @@ UPDATE [dbo].[Student]
 SET Telefon = '123-456-789'
 WHERE Telefon = 'Brak.' or Telefon =''
 
-SELECT * FROM Pracownik
-
 /* Lab 6_5 */
 UPDATE [dbo].[Pracownik]
 SET KodPocztowy = '59-200'
 WHERE Miejscowosc='Legnica' and KodPocztowy=''
+
+SELECT * FROM Student
+SELECT * FROM Grupa
+
+/* Lab 6_6 */
+UPDATE [dbo].[Grupa]
+SET Starosta = 1
+WHERE IdOddzialu=1
+
+UPDATE [dbo].[Grupa]
+SET Starosta = 9
+WHERE IdOddzialu=2
+
+UPDATE [dbo].[Grupa]
+SET Starosta = 12
+WHERE IdOddzialu=3
