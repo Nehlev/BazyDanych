@@ -51,5 +51,22 @@ JOIN Pracownik as PRACOWNIK ON PROWADZACY.IdPracownika=PRACOWNIK.IdPracownika
 JOIN Przedmiot as PRZEDMIOT ON PRZEDMIOT.KodPrzedmiotu=PROWADZACY.KodPrzedmiotu
 GO
 
+SELECT * FROM V_Zaliczenie_I_Student_I_Prowadzacy
 
 /**************** Lab 7_8_4 ****************/
+/*
+DROP VIEW V_Student_I_NazwaGrupy_I_NazwaOddzialu
+GO
+*/
+CREATE VIEW V_Student_I_NazwaGrupy_I_NazwaOddzialu as SELECT
+
+Student.Nazwisko, Student.Imie, Student.IdGrupy,
+ODDZIAL.Nazwa
+
+FROM Student as STUDENT
+LEFT JOIN OddzialUczelni as ODDZIAL ON STUDENT.IdOddzialu=ODDZIAL.IdOddzialu
+GO
+
+SELECT * FROM V_Student_I_NazwaGrupy_I_NazwaOddzialu
+
+/**************** Lab 7_8_5 ****************/
