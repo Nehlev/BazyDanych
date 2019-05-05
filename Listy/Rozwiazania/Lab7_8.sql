@@ -104,5 +104,22 @@ Imie=@ImieStudenta AND Nazwisko=@NazwiskoStudenta
 GO
 
 EXEC All_Subjects_Of_Student 'Marcin', 'Andrzejewski'
+EXEC All_Subjects_Of_Student 'Micha³', 'Bobrowski'
 
 /**************** Lab 7_8_7 ****************/
+DROP PROC All_Subjects_Of_Lecturer
+GO
+
+CREATE PROC All_Subjects_Of_Lecturer
+	@ImieProwadzacego char(30),
+	@NazwiskoProwadzacego char(40) AS SELECT DISTINCT
+
+Pracownik_Imie, Pracownik_Nazwisko, Nazwa FROM V_Przedmiot_I_Prowadzacy 
+WHERE 
+Pracownik_Imie=@ImieProwadzacego AND Pracownik_Nazwisko=@NazwiskoProwadzacego
+GO
+
+EXEC All_Subjects_Of_Lecturer 'Bogdan', 'Janicki'
+EXEC All_Subjects_Of_Lecturer 'Jan', 'Kowalski'
+EXEC All_Subjects_Of_Lecturer 'Piotr', 'Marcinkowski'
+EXEC All_Subjects_Of_Lecturer 'Grzegorz', 'Andrzejewski'
