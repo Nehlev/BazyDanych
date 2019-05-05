@@ -1,8 +1,8 @@
 /*************** Lab 7_8_1 ****************/
-/* 
-DROP VIEW V_Pracownicy_I_Oddzial
-GO 
-*/
+
+--DROP VIEW V_Pracownicy_I_Oddzial
+--GO 
+
 CREATE VIEW V_Pracownicy_I_Oddzial as SELECT
 
 PRACOWNIK.Tytul, PRACOWNIK.Nazwisko, PRACOWNIK.Imie, PRACOWNIK.Stanowisko, PRACOWNIK.TelefonKom, PRACOWNIK.Email,
@@ -15,10 +15,10 @@ GO
 SELECT * FROM V_Pracownicy_I_Oddzial
 
 /**************** Lab 7_8_2 ****************/
-/*
-DROP VIEW V_Przedmiot_I_Prowadzacy
-GO
-*/
+
+--DROP VIEW V_Przedmiot_I_Prowadzacy
+--GO
+
 CREATE VIEW V_Przedmiot_I_Prowadzacy as SELECT
 
 PRZEDMIOT.Nazwa, PRZEDMIOT.KodPrzedmiotu, PRZEDMIOT.Semestr, PRZEDMIOT.ECTS, PRZEDMIOT.FormaZajec,
@@ -32,10 +32,10 @@ GO
 SELECT * FROM V_Przedmiot_I_Prowadzacy
 
 /**************** Lab 7_8_3 ****************/
-/*
-DROP VIEW V_Zaliczenie_I_Student_I_Prowadzacy
-GO
-*/
+
+--DROP VIEW V_Zaliczenie_I_Student_I_Prowadzacy
+--GO
+
 CREATE VIEW V_Zaliczenie_I_Student_I_Prowadzacy as SELECT
 
 PROWADZACY.KodPrzedmiotu, PRZEDMIOT.Nazwa,
@@ -54,10 +54,10 @@ GO
 SELECT * FROM V_Zaliczenie_I_Student_I_Prowadzacy
 
 /**************** Lab 7_8_4 ****************/
-/*
-DROP VIEW V_Student_I_NazwaGrupy_I_NazwaOddzialu
-GO
-*/
+
+--DROP VIEW V_Student_I_NazwaGrupy_I_NazwaOddzialu
+--GO
+
 CREATE VIEW V_Student_I_NazwaGrupy_I_NazwaOddzialu as SELECT
 
 Student.Nazwisko, Student.Imie, Student.IdGrupy,
@@ -70,13 +70,11 @@ GO
 SELECT * FROM V_Student_I_NazwaGrupy_I_NazwaOddzialu
 
 /**************** Lab 7_8_5 ****************/
-/*
-"Zaprojektowaæ widok który wyœwietli imiê i nazwisko studenta, numer jego indeksu oraz nazwy przedmiotów na jakie jest zapisany."
-Nie znam mechanizmu ( nie wiem czy Microsoft SQL takowy oferuje ) który potrafi zaprezentowaæ wynik który jest kolekcj¹ w jednej kolumnie :/
-*/
+--"Zaprojektowaæ widok który wyœwietli imiê i nazwisko studenta, numer jego indeksu oraz nazwy przedmiotów na jakie jest zapisany."
+--Nie znam mechanizmu ( nie wiem czy Microsoft SQL takowy oferuje ) który potrafi zaprezentowaæ wynik który jest kolekcj¹ w jednej kolumnie :/
 
-DROP VIEW V_Student_Imie_Nazwisko_NumerIndeksu_NazwyPrzedmiotow
-GO
+--DROP VIEW V_Student_Imie_Nazwisko_NumerIndeksu_NazwyPrzedmiotow
+--GO
 
 CREATE VIEW V_Student_Imie_Nazwisko_NumerIndeksu_NazwyPrzedmiotow as SELECT
 
@@ -91,10 +89,20 @@ GO
 
 SELECT * FROM V_Student_Imie_Nazwisko_NumerIndeksu_NazwyPrzedmiotow
 
-SELECT * FROM Zapisy
-SELECT * FROM Student
-SELECT * FROM Przedmiot
-SELECT * FROM ProwadzacyPrzedmiot
-
 /**************** Lab 7_8_6 ****************/
+DROP PROC All_Subjects_Of_Student
+GO
+
+CREATE PROC All_Subjects_Of_Student
+	@ImieStudenta char(30),
+	@NazwiskoStudenta char(40) AS SELECT DISTINCT
+
+Imie, Nazwisko, Nazwa FROM V_Student_Imie_Nazwisko_NumerIndeksu_NazwyPrzedmiotow 
+WHERE 
+Imie=@ImieStudenta AND Nazwisko=@NazwiskoStudenta
+
+GO
+
+EXEC All_Subjects_Of_Student 'Marcin', 'Andrzejewski'
+
 /**************** Lab 7_8_7 ****************/
