@@ -160,4 +160,22 @@ EXEC All_Grades_Of_Student 'Marcin', 'Andrzejewski'
 EXEC All_Grades_Of_Student 'Micha³', 'Bobrowski'
 GO
 
-/**************** Lab 7_8_10 ****************/
+/**************** Lab 7_8_10  ****************/
+DROP VIEW V_Przedmiot_Student_Niezdal
+GO
+
+CREATE VIEW V_Przedmiot_Student_Niezdal as SELECT DISTINCT
+
+PRZEDMIOT.Nazwa, PRZEDMIOT.KodPrzedmiotu, ZALICZENIE.Ocena,
+STUDENT.Imie, STUDENT.Nazwisko, STUDENT.NrIndeksu
+
+FROM Zaliczenie as ZALICZENIE
+LEFT JOIN Zapisy as ZAPISY ON ZALICZENIE.IdZapisu=ZAPISY.IdZapisu
+JOIN Student as STUDENT ON Student.NrIndeksu=ZAPISY.NrIndeksu
+JOIN ProwadzacyPrzedmiot as PROWADZACY ON ZAPISY.IdPrzydzialu=PROWADZACY.IdPrzydzialu
+JOIN Przedmiot as PRZEDMIOT ON PROWADZACY.KodPrzedmiotu=PRZEDMIOT.KodPrzedmiotu
+WHERE ZALICZENIE.Ocena like 2.0
+GO
+
+SELECT * FROM V_Przedmiot_Student_Niezdal
+GO
