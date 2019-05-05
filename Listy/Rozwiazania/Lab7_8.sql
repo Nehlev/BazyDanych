@@ -1,5 +1,4 @@
 /*************** Lab 7_8_1 ****************/
-
 --DROP VIEW V_Pracownicy_I_Oddzial
 --GO 
 
@@ -13,9 +12,9 @@ INNER JOIN OddzialUczelni ODDZIAL ON PRACOWNIK.IdOddzialu=ODDZIAL.IdOddzialu
 GO
 
 SELECT * FROM V_Pracownicy_I_Oddzial
+GO
 
 /**************** Lab 7_8_2 ****************/
-
 --DROP VIEW V_Przedmiot_I_Prowadzacy
 --GO
 
@@ -30,9 +29,9 @@ JOIN Pracownik as PRACOWNIK ON PROWADZACY.IdPracownika=PRACOWNIK.IdPracownika
 GO
 
 SELECT * FROM V_Przedmiot_I_Prowadzacy
+GO
 
 /**************** Lab 7_8_3 ****************/
-
 --DROP VIEW V_Zaliczenie_I_Student_I_Prowadzacy
 --GO
 
@@ -52,9 +51,9 @@ JOIN Przedmiot as PRZEDMIOT ON PRZEDMIOT.KodPrzedmiotu=PROWADZACY.KodPrzedmiotu
 GO
 
 SELECT * FROM V_Zaliczenie_I_Student_I_Prowadzacy
+GO
 
 /**************** Lab 7_8_4 ****************/
-
 --DROP VIEW V_Student_I_NazwaGrupy_I_NazwaOddzialu
 --GO
 
@@ -68,6 +67,7 @@ LEFT JOIN OddzialUczelni as ODDZIAL ON STUDENT.IdOddzialu=ODDZIAL.IdOddzialu
 GO
 
 SELECT * FROM V_Student_I_NazwaGrupy_I_NazwaOddzialu
+GO
 
 /**************** Lab 7_8_5 ****************/
 --"Zaprojektowaæ widok który wyœwietli imiê i nazwisko studenta, numer jego indeksu oraz nazwy przedmiotów na jakie jest zapisany."
@@ -88,10 +88,11 @@ JOIN Przedmiot as PRZEDMIOT ON PROWADZACY.KodPrzedmiotu=PRZEDMIOT.KodPrzedmiotu
 GO
 
 SELECT * FROM V_Student_Imie_Nazwisko_NumerIndeksu_NazwyPrzedmiotow
+GO
 
 /**************** Lab 7_8_6 ****************/
-DROP PROC All_Subjects_Of_Student
-GO
+--DROP PROC All_Subjects_Of_Student
+--GO
 
 CREATE PROC All_Subjects_Of_Student
 	@ImieStudenta char(30),
@@ -105,10 +106,11 @@ GO
 
 EXEC All_Subjects_Of_Student 'Marcin', 'Andrzejewski'
 EXEC All_Subjects_Of_Student 'Micha³', 'Bobrowski'
+GO
 
 /**************** Lab 7_8_7 ****************/
-DROP PROC All_Subjects_Of_Lecturer
-GO
+--DROP PROC All_Subjects_Of_Lecturer
+--GO
 
 CREATE PROC All_Subjects_Of_Lecturer
 	@ImieProwadzacego char(30),
@@ -123,3 +125,20 @@ EXEC All_Subjects_Of_Lecturer 'Bogdan', 'Janicki'
 EXEC All_Subjects_Of_Lecturer 'Jan', 'Kowalski'
 EXEC All_Subjects_Of_Lecturer 'Piotr', 'Marcinkowski'
 EXEC All_Subjects_Of_Lecturer 'Grzegorz', 'Andrzejewski'
+GO
+
+/**************** Lab 7_8_8 ****************/
+--DROP VIEW V_Student_Imie_Nazwisko_NumerIndeksu_Ocena
+--GO
+
+CREATE VIEW V_Student_Imie_Nazwisko_NumerIndeksu_Ocena as SELECT 
+
+Student.Imie, Student.Nazwisko, Student.NrIndeksu, ZALICZENIE.Ocena
+
+FROM Student as STUDENT
+LEFT JOIN Zapisy as ZAPISY ON Zapisy.NrIndeksu=STUDENT.NrIndeksu
+JOIN Zaliczenie as ZALICZENIE ON ZAPISY.IdPrzydzialu=ZALICZENIE.IdZapisu
+GO
+
+SELECT * FROM V_Student_Imie_Nazwisko_NumerIndeksu_Ocena
+GO
