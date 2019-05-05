@@ -91,10 +91,10 @@ SELECT * FROM V_Student_Imie_Nazwisko_NumerIndeksu_NazwyPrzedmiotow
 GO
 
 /**************** Lab 7_8_6 ****************/
---DROP PROC All_Subjects_Of_Student
+--DROP PROC Pokaz_Wszystkie_Przedmioty_Studenta
 --GO
 
-CREATE PROC All_Subjects_Of_Student
+CREATE PROC Pokaz_Wszystkie_Przedmioty_Studenta
 	@ImieStudenta char(30),
 	@NazwiskoStudenta char(40) AS SELECT DISTINCT
 
@@ -104,15 +104,15 @@ Imie=@ImieStudenta AND Nazwisko=@NazwiskoStudenta
 
 GO
 
-EXEC All_Subjects_Of_Student 'Marcin', 'Andrzejewski'
-EXEC All_Subjects_Of_Student 'Micha³', 'Bobrowski'
+EXEC Pokaz_Wszystkie_Przedmioty_Studenta 'Marcin', 'Andrzejewski'
+EXEC Pokaz_Wszystkie_Przedmioty_Studenta 'Micha³', 'Bobrowski'
 GO
 
 /**************** Lab 7_8_7 ****************/
---DROP PROC All_Subjects_Of_Lecturer
+--DROP PROC Pokaz_Wszystkie_Przedmioty_Prowadzacego
 --GO
 
-CREATE PROC All_Subjects_Of_Lecturer
+CREATE PROC Pokaz_Wszystkie_Przedmioty_Prowadzacego
 	@ImieProwadzacego char(30),
 	@NazwiskoProwadzacego char(40) AS SELECT DISTINCT
 
@@ -121,10 +121,10 @@ WHERE
 Pracownik_Imie=@ImieProwadzacego AND Pracownik_Nazwisko=@NazwiskoProwadzacego
 GO
 
-EXEC All_Subjects_Of_Lecturer 'Bogdan', 'Janicki'
-EXEC All_Subjects_Of_Lecturer 'Jan', 'Kowalski'
-EXEC All_Subjects_Of_Lecturer 'Piotr', 'Marcinkowski'
-EXEC All_Subjects_Of_Lecturer 'Grzegorz', 'Andrzejewski'
+EXEC Pokaz_Wszystkie_Przedmioty_Prowadzacego 'Bogdan', 'Janicki'
+EXEC Pokaz_Wszystkie_Przedmioty_Prowadzacego 'Jan', 'Kowalski'
+EXEC Pokaz_Wszystkie_Przedmioty_Prowadzacego 'Piotr', 'Marcinkowski'
+EXEC Pokaz_Wszystkie_Przedmioty_Prowadzacego 'Grzegorz', 'Andrzejewski'
 GO
 
 /**************** Lab 7_8_8 ****************/
@@ -144,10 +144,10 @@ SELECT * FROM V_Student_Imie_Nazwisko_NumerIndeksu_Ocena
 GO
 
 /**************** Lab 7_8_9 ****************/
---DROP PROC All_Subjects_Of_Lecturer
+--DROP PROC Pokaz_Wszystkie_Tylko_Oceny_Studenta
 --GO
 
-CREATE PROC All_Grades_Of_Student
+CREATE PROC Pokaz_Wszystkie_Tylko_Oceny_Studenta
 	@ImieStudenta char(30),
 	@NazwiskoStudenta char(40) AS SELECT 
 
@@ -156,8 +156,8 @@ WHERE
 Imie=@ImieStudenta AND Nazwisko=@NazwiskoStudenta
 GO
 
-EXEC All_Grades_Of_Student 'Marcin', 'Andrzejewski'
-EXEC All_Grades_Of_Student 'Micha³', 'Bobrowski'
+EXEC Pokaz_Wszystkie_Tylko_Oceny_Studenta 'Marcin', 'Andrzejewski'
+EXEC Pokaz_Wszystkie_Tylko_Oceny_Studenta 'Micha³', 'Bobrowski'
 GO
 
 /**************** Lab 7_8_10  ****************/
@@ -179,3 +179,22 @@ GO
 
 SELECT * FROM V_Przedmiot_Student_Niezdal
 GO
+
+/**************** Lab 7_8_11  ****************/
+--DROP PROC Dodaj_Sale
+--GO
+
+CREATE PROC Dodaj_Sale
+	@IdSali int,
+	@IdOddzialu tinyint,
+	@Pojemnosc int,
+	@KodTyp char(3) AS INSERT
+Sala(IdSali, IdOddzialu, Pojemnosc, KodTyp)
+VALUES (@IdSali, @IdOddzialu, @Pojemnosc, @KodTyp)
+GO
+
+EXEC Dodaj_Sale 13, 3, 30, LAB
+EXEC Dodaj_Sale 14, 3, 30, LAB
+GO
+
+SELECT * FROM Sala
