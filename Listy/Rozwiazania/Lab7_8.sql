@@ -70,3 +70,31 @@ GO
 SELECT * FROM V_Student_I_NazwaGrupy_I_NazwaOddzialu
 
 /**************** Lab 7_8_5 ****************/
+/*
+"Zaprojektowaæ widok który wyœwietli imiê i nazwisko studenta, numer jego indeksu oraz nazwy przedmiotów na jakie jest zapisany."
+Nie znam mechanizmu ( nie wiem czy Microsoft SQL takowy oferuje ) który potrafi zaprezentowaæ wynik który jest kolekcj¹ w jednej kolumnie :/
+*/
+
+DROP VIEW V_Student_Imie_Nazwisko_NumerIndeksu_NazwyPrzedmiotow
+GO
+
+CREATE VIEW V_Student_Imie_Nazwisko_NumerIndeksu_NazwyPrzedmiotow as SELECT
+
+Student.Imie, Student.Nazwisko, Student.NrIndeksu,
+PRZEDMIOT.Nazwa, PRZEDMIOT.KodPrzedmiotu
+
+FROM Student as STUDENT
+LEFT JOIN Zapisy as ZAPISY ON Zapisy.NrIndeksu=STUDENT.NrIndeksu
+JOIN ProwadzacyPrzedmiot as PROWADZACY ON ZAPISY.IdPrzydzialu=PROWADZACY.IdPrzydzialu
+JOIN Przedmiot as PRZEDMIOT ON PROWADZACY.KodPrzedmiotu=PRZEDMIOT.KodPrzedmiotu
+GO
+
+SELECT * FROM V_Student_Imie_Nazwisko_NumerIndeksu_NazwyPrzedmiotow
+
+SELECT * FROM Zapisy
+SELECT * FROM Student
+SELECT * FROM Przedmiot
+SELECT * FROM ProwadzacyPrzedmiot
+
+/**************** Lab 7_8_6 ****************/
+/**************** Lab 7_8_7 ****************/
