@@ -161,8 +161,8 @@ EXEC Tylko_Oceny_Studenta_pokaz 'Micha³', 'Bobrowski'
 GO
 
 /**************** Lab 7_8_10 ****************/
-DROP VIEW V_Przedmiot_Student_Niezdal
-GO
+--DROP VIEW V_Przedmiot_Student_Niezdal
+--GO
 
 CREATE VIEW V_Przedmiot_Student_Niezdal as SELECT DISTINCT
 
@@ -203,15 +203,15 @@ GO
 /* Odkomentowane poniewaz jest to modyfikacja utworzonej juz wczesniej procedury */
 
 CREATE PROC ProwadzacyPrzedmiot_wstawianie
-@IdPrzydzialu int, -- klucz glówny
-@KodPrzedmiotu char(7),
-@IdPracownika int,
-@IdGrupy smallint,
-@RokPoczatek smallint,
-@RokKoniec smallint,
-@Semestr tinyint, -- "1" - zimowy; "2" - letni
-@IdOddzialu tinyint,
-@IdSali int
+	@IdPrzydzialu int, -- klucz glówny
+	@KodPrzedmiotu char(7),
+	@IdPracownika int,
+	@IdGrupy smallint,
+	@RokPoczatek smallint,
+	@RokKoniec smallint,
+	@Semestr tinyint, -- "1" - zimowy; "2" - letni
+	@IdOddzialu tinyint,
+	@IdSali int
 AS
 
 INSERT ProwadzacyPrzedmiot
@@ -225,7 +225,27 @@ VALUES (@IdPrzydzialu, @IdSali)
 GO
 
 EXEC ProwadzacyPrzedmiot_wstawianie 5, 'INF517L', 5, 1, 2004, 2005, 1, 1, 2
-
-SELECT * FROM SalaPrzydzial
+GO
 
 /**************** Lab 7_8_13 ****************/
+--DROP PROC Srednia_Ocen_pokaz
+--GO
+
+CREATE PROC Srednia_Ocen_pokaz
+	@NrIndeksu int AS SELECT DISTINCT
+
+Imie, Nazwisko,
+AVG(Ocena) AS SredniaOcen FROM V_Student_Imie_Nazwisko_NumerIndeksu_Ocena
+WHERE NrIndeksu=@NrIndeksu
+GROUP BY 
+	V_Student_Imie_Nazwisko_NumerIndeksu_Ocena.Imie,
+	V_Student_Imie_Nazwisko_NumerIndeksu_Ocena.Nazwisko
+
+GO
+
+SELECT * FROM V_Student_Imie_Nazwisko_NumerIndeksu_Ocena
+ORDER BY Nazwisko
+
+EXEC Srednia_Ocen_pokaz 1
+EXEC Srednia_Ocen_pokaz 2
+GO
