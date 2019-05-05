@@ -228,14 +228,13 @@ EXEC ProwadzacyPrzedmiot_wstawianie 5, 'INF517L', 5, 1, 2004, 2005, 1, 1, 2
 GO
 
 /**************** Lab 7_8_13 ****************/
---DROP PROC Srednia_Ocen_pokaz
---GO
+DROP PROC Srednia_Ocen_pokaz
+GO
 
 CREATE PROC Srednia_Ocen_pokaz
-	@NrIndeksu int AS SELECT DISTINCT
+	@NrIndeksu int AS SELECT
 
-Imie, Nazwisko,
-AVG(Ocena) AS SredniaOcen FROM V_Student_Imie_Nazwisko_NumerIndeksu_Ocena
+Imie, Nazwisko, AVG(Ocena) AS SredniaOcen FROM V_Student_Imie_Nazwisko_NumerIndeksu_Ocena
 WHERE NrIndeksu=@NrIndeksu
 GROUP BY 
 	V_Student_Imie_Nazwisko_NumerIndeksu_Ocena.Imie,
