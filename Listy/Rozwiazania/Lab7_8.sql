@@ -160,7 +160,7 @@ EXEC Tylko_Oceny_Studenta_pokaz 'Marcin', 'Andrzejewski'
 EXEC Tylko_Oceny_Studenta_pokaz 'Micha³', 'Bobrowski'
 GO
 
-/**************** Lab 7_8_10  ****************/
+/**************** Lab 7_8_10 ****************/
 DROP VIEW V_Przedmiot_Student_Niezdal
 GO
 
@@ -180,7 +180,7 @@ GO
 SELECT * FROM V_Przedmiot_Student_Niezdal
 GO
 
-/**************** Lab 7_8_11  ****************/
+/**************** Lab 7_8_11 ****************/
 --DROP PROC Sala_wstawianie
 --GO
 
@@ -197,8 +197,35 @@ EXEC Sala_wstawianie 13, 3, 30, LAB
 EXEC Sala_wstawianie 14, 3, 30, LAB
 GO
 
-SELECT * FROM Sala
+/**************** Lab 7_8_12 ****************/
+DROP PROC ProwadzacyPrzedmiot_wstawianie
+GO 
+/* Odkomentowane poniewaz jest to modyfikacja utworzonej juz wczesniej procedury */
 
-/**************** Lab 7_8_12  ****************/
---DROP PROC Sala_wstawianie
---GO
+CREATE PROC ProwadzacyPrzedmiot_wstawianie
+@IdPrzydzialu int, -- klucz glówny
+@KodPrzedmiotu char(7),
+@IdPracownika int,
+@IdGrupy smallint,
+@RokPoczatek smallint,
+@RokKoniec smallint,
+@Semestr tinyint, -- "1" - zimowy; "2" - letni
+@IdOddzialu tinyint,
+@IdSali int
+AS
+
+INSERT ProwadzacyPrzedmiot
+(IdPrzydzialu, KodPrzedmiotu, IdPracownika, IdGrupy, RokPoczatek, RokKoniec, Semestr, IdOddzialu)
+VALUES
+(@IdPrzydzialu, @KodPrzedmiotu, @IdPracownika, @IdGrupy, @RokPoczatek, @RokKoniec, @Semestr, @IdOddzialu)
+
+INSERT SalaPrzydzial(IdPrzydzialu, IdSali)
+VALUES (@IdPrzydzialu, @IdSali)
+
+GO
+
+EXEC ProwadzacyPrzedmiot_wstawianie 5, 'INF517L', 5, 1, 2004, 2005, 1, 1, 2
+
+SELECT * FROM SalaPrzydzial
+
+/**************** Lab 7_8_13 ****************/
