@@ -142,3 +142,22 @@ GO
 
 SELECT * FROM V_Student_Imie_Nazwisko_NumerIndeksu_Ocena
 GO
+
+/**************** Lab 7_8_9 ****************/
+--DROP PROC All_Subjects_Of_Lecturer
+--GO
+
+CREATE PROC All_Grades_Of_Student
+	@ImieStudenta char(30),
+	@NazwiskoStudenta char(40) AS SELECT 
+
+Imie, Nazwisko, Ocena FROM V_Student_Imie_Nazwisko_NumerIndeksu_Ocena 
+WHERE 
+Imie=@ImieStudenta AND Nazwisko=@NazwiskoStudenta
+GO
+
+EXEC All_Grades_Of_Student 'Marcin', 'Andrzejewski'
+EXEC All_Grades_Of_Student 'Micha³', 'Bobrowski'
+GO
+
+/**************** Lab 7_8_10 ****************/
