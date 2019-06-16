@@ -1,0 +1,2 @@
+EXEC Telco_Wroclaw.dbo.sp_changedbowner @loginame = N'sa', @map = false
+GO
