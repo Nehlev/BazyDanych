@@ -51,6 +51,7 @@ CREATE TABLE [dbo].[SalaPrzydzial] (
 	[IdSali] [int] NOT NULL
 ) ON [PRIMARY]
 GO
+/* Kazda tabela musi miec klucz glowny zdefiniowany aby uniknac zduplikowanych relacji */
 
 ALTER TABLE [dbo].[SalaPrzydzial] ADD
 	CONSTRAINT [FK_SalaPrzydzial_IdPrzydzialu] FOREIGN KEY
