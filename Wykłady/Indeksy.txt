@@ -1,7 +1,0 @@
- Domyślnie na kolumnie (kolumnach) klucza głównego PRIMARY KEY
-system DBMS tworzy indeks zgrupowany (CLUSTERED INDEX),
-który przyśpiesza wyszukiwanie wierszy w tabeli.
-
-Nałożenie ograniczenia UNIQUE na określone kolumny powoduje
-utworzenie na nich unikalnego indeksu niezgrupowanego
-(unique, nonclustered index).
