@@ -329,3 +329,6 @@ EXEC SoftwareUpgrade 'Korytko', 1
 SELECT * FROM [Telco_Wroclaw].dbo.Hardware
 SELECT * FROM [Telco_Wroclaw].dbo.Software
 SELECT * FROM [Telco_Wroclaw].dbo.Operator
+
+CREATE UNIQUE INDEX TelcoWroclaw_Hardware_UniqueIndex_PC_and_SN
+ON [Telco_Wroclaw].dbo.Hardware (ProductCodeAndSerialNumber);
