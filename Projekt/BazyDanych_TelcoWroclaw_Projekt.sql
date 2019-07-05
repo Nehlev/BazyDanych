@@ -141,10 +141,20 @@ ALTER TABLE [dbo].[TelcoUser] ADD
 	CONSTRAINT [FK_TelcoUser_Pesel] FOREIGN KEY
 	(
 		[Pesel]
-	) REFERENCES [dbo].[ContactInformation](
+	) REFERENCES [dbo].[ContactInformation] (
 		[Pesel]
 	)
 GO
+
+ALTER TABLE [dbo].[TelcoWorker] ADD
+	CONSTRAINT [FK_TelcoWorker_Pesel] FOREIGN KEY
+	(
+		[Pesel]
+	) REFERENCES [dbo].[ContactInformation] (
+		[Pesel]
+	)
+GO
+
 
 --------------------------------------------------------------------------------
 -- Parametry
@@ -324,11 +334,33 @@ BEGIN TRANSACTION Transaction_AddTelcoUsers
 COMMIT
 GO
 
+CREATE PROCEDURE AddTelcoWorkers
+AS
+BEGIN TRANSACTION Transaction_AddTelcoWorkers
+	EXEC ContactInformation_Insert '90010100004', 'Jan', 'Kowalski', 'Wroclaw', 'Sienkiewicza 1', 'jan.kowalski@interia.pl'
+	EXEC TelcoWorker_Insert '90010100004', 'Korytko'
+
+	EXEC ContactInformation_Insert '90010100005', 'Adam', 'Nowak', 'Wroclaw', 'Sienkiewicza 2', 'adam.nowak@gmail.pl'
+	EXEC TelcoWorker_Insert '90010100005', 'Korytko'
+
+	EXEC ContactInformation_Insert '90010100006', 'Tomek', 'Wolski', 'Warszawa', 'Mickiewicza 3', 'tomek.wolski@interia.pl'
+	EXEC TelcoWorker_Insert '90010100006', 'Korytko'
+
+	IF @@ERROR <> 0
+		BEGIN
+			ROLLBACK
+			RAISERROR ('An error occured during initializng users of the site', 10, 10)
+			RETURN
+		END
+COMMIT
+GO
+
 -------------------------------------------------------------------------------
 -- Definicja stanu startowego bazy danych END
 ---
 EXEC CreateSiteFor 'Korytko'
 EXEC AddTelcoUsers
+EXEC AddTelcoWorkers
 
 SELECT * FROM [Telco_Wroclaw].dbo.Hardware
 SELECT * FROM [Telco_Wroclaw].dbo.Software
