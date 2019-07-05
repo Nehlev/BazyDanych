@@ -437,32 +437,32 @@ GO
 SELECT * FROM TelcoWorkerWithContactInfo_View
 GO
 
----------------------------------------------------------------------------------
----- Kup nowe oprogramowanie i zaktualizuj partycje pasywne
------
---EXEC BuyNewVersionOfSoftwareAndSendToHardware 'Korytko'
+-------------------------------------------------------------------------------
+-- Kup nowe oprogramowanie i zaktualizuj partycje pasywne
+---
+EXEC BuyNewVersionOfSoftwareAndSendToHardware 'Korytko'
 
---SELECT * FROM [Telco_Wroclaw].dbo.Hardware
---SELECT * FROM [Telco_Wroclaw].dbo.Software
---SELECT * FROM [Telco_Wroclaw].dbo.Operator
+SELECT * FROM [Telco_Wroclaw].dbo.Hardware
+SELECT * FROM [Telco_Wroclaw].dbo.Software
+SELECT * FROM [Telco_Wroclaw].dbo.Operator
 
----------------------------------------------------------------------------------
----- Symuluj niepowodzenie aktualizacji oprogramowania ( zamiana aktywnej partycji z pasywna )
------
---EXEC SoftwareUpgrade 'Korytko', 10
+-------------------------------------------------------------------------------
+-- Symuluj niepowodzenie aktualizacji oprogramowania ( zamiana aktywnej partycji z pasywna )
+---
+EXEC SoftwareUpgrade 'Korytko', 10
 
---SELECT * FROM [Telco_Wroclaw].dbo.Hardware
---SELECT * FROM [Telco_Wroclaw].dbo.Software
---SELECT * FROM [Telco_Wroclaw].dbo.Operator
+SELECT * FROM [Telco_Wroclaw].dbo.Hardware
+SELECT * FROM [Telco_Wroclaw].dbo.Software
+SELECT * FROM [Telco_Wroclaw].dbo.Operator
 
----------------------------------------------------------------------------------
----- Symuluj powodzenie aktualizacji oprogramowania ( zamiana aktywnej partycji z pasywna )
------
---EXEC SoftwareUpgrade 'Korytko', 1
+-------------------------------------------------------------------------------
+-- Symuluj powodzenie aktualizacji oprogramowania ( zamiana aktywnej partycji z pasywna )
+---
+EXEC SoftwareUpgrade 'Korytko', 1
 
---SELECT * FROM [Telco_Wroclaw].dbo.Hardware
---SELECT * FROM [Telco_Wroclaw].dbo.Software
---SELECT * FROM [Telco_Wroclaw].dbo.Operator
+SELECT * FROM [Telco_Wroclaw].dbo.Hardware
+SELECT * FROM [Telco_Wroclaw].dbo.Software
+SELECT * FROM [Telco_Wroclaw].dbo.Operator
 
---CREATE UNIQUE INDEX TelcoWroclaw_Hardware_UniqueIndex_PC_and_SN
---ON [Telco_Wroclaw].dbo.Hardware (ProductCodeAndSerialNumber);
+CREATE UNIQUE INDEX TelcoWroclaw_Hardware_UniqueIndex_PC_and_SN
+ON [Telco_Wroclaw].dbo.Hardware (ProductCodeAndSerialNumber);
