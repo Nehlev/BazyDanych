@@ -39,23 +39,23 @@ GO
 
 CREATE TABLE [dbo].[TelcoUser] (
 	[Pesel] [nchar] (11) NOT NULL,
-	[Name] [nchar] (64) COLLATE Polish_CI_AS NOT NULL,
-	[Surname] [nchar] (64) COLLATE Polish_CI_AS NOT NULL,
-	[Address_City] [nchar] (64) COLLATE Polish_CI_AS NOT NULL,
-	[Address_Street] [nchar] (64) COLLATE Polish_CI_AS NOT NULL,
-	[Email] [nchar] (64) COLLATE Polish_CI_AS NOT NULL,
 	[OperatorName] [char] (64) COLLATE Polish_CI_AS NOT NULL
 ) ON [PRIMARY]
 GO
 
 CREATE TABLE [dbo].[TelcoWorker] (
 	[Pesel] [nchar] (11) NOT NULL,
+	[Job] [nchar] (64) COLLATE Polish_CI_AS NOT NULL
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[ContactInformation] (
+	[Pesel] [nchar] (11) NOT NULL,
 	[Name] [nchar] (64) COLLATE Polish_CI_AS NOT NULL,
 	[Surname] [nchar] (64) COLLATE Polish_CI_AS NOT NULL,
 	[Address_City] [nchar] (64) COLLATE Polish_CI_AS NOT NULL,
 	[Address_Street] [nchar] (64) COLLATE Polish_CI_AS NOT NULL,
-	[Email] [nchar] (64) COLLATE Polish_CI_AS NOT NULL,
-	[Job] [nchar] (64) COLLATE Polish_CI_AS NOT NULL
+	[Email] [nchar] (64) COLLATE Polish_CI_AS NOT NULL
 ) ON [PRIMARY]
 GO
 
@@ -98,6 +98,13 @@ ALTER TABLE [dbo].[TelcoWorker] WITH NOCHECK ADD
 	)  ON [PRIMARY] 
 GO
 
+ALTER TABLE [dbo].[ContactInformation] WITH NOCHECK ADD 
+	CONSTRAINT [PK_TelcoWorker_ContactInformation] PRIMARY KEY  CLUSTERED 
+	(
+		[Pesel]
+	)  ON [PRIMARY] 
+GO
+
 -------------------------
 --------------------------------------------------------------------------------
 -- Definicje kluczy FK i innych ograniczeñ.
@@ -130,6 +137,12 @@ ALTER TABLE [dbo].[TelcoUser] ADD
 		[OperatorName]
 	) REFERENCES [dbo].[Operator] (
 		[Name]
+	),
+	CONSTRAINT [FK_TelcoUser_Pesel] FOREIGN KEY
+	(
+		[Pesel]
+	) REFERENCES [dbo].[ContactInformation](
+		[Pesel]
 	)
 GO
 
@@ -206,30 +219,32 @@ INSERT Software(SwType, Version, Money)
 VALUES (@SwType, @Version, @Money)
 GO
 
-CREATE PROC TelcoUser_Insert
+CREATE PROC ContactInformation_Insert
 @Pesel nchar(11),
 @Name nchar(64),
 @Surname nchar(64),
 @Address_City nchar(64),
 @Address_Street nchar(64),
-@Email nchar(64),
+@Email nchar(64)
+AS
+INSERT ContactInformation(Pesel, Name, Surname, Address_City, Address_Street, Email)
+VALUES (@Pesel, @Name, @Surname, @Address_City, @Address_Street, @Email)
+GO
+
+CREATE PROC TelcoUser_Insert
+@Pesel nchar(11),
 @OperatorName nchar(64)
 AS
-INSERT TelcoUser(Pesel, Name, Surname, Address_City, Address_Street, Email, OperatorName)
-VALUES (@Pesel, @Name, @Surname, @Address_City, @Address_Street, @Email, @OperatorName)
+INSERT TelcoUser(Pesel, OperatorName)
+VALUES (@Pesel, @OperatorName)
 GO
 
 CREATE PROC TelcoWorker_Insert
 @Pesel nchar(11),
-@Name nchar(64),
-@Surname nchar(64),
-@Address_City nchar(64),
-@Address_Street nchar(64),
-@Email nchar(64),
 @Job nchar(64)
 AS
-INSERT TelcoWorker(Pesel, Name, Surname, Address_City, Address_Street, Email, Job)
-VALUES (@Pesel, @Name, @Surname, @Address_City, @Address_Street, @Email, @Job)
+INSERT TelcoWorker(Pesel, Job)
+VALUES (@Pesel, @Job)
 GO
 
 --------------------------------------------------------------------------------
@@ -288,11 +303,18 @@ GO
 CREATE PROCEDURE AddTelcoUsers
 AS
 BEGIN TRANSACTION Transaction_AddTelcoUsers
-	EXEC TelcoUser_Insert '90010100000', 'Jan', 'Kowalski', 'Wroclaw', 'Sienkiewicza 1', 'jan.kowalski@interia.pl', 'Korytko'
-	EXEC TelcoUser_Insert '90010100001', 'Adam', 'Nowak', 'Wroclaw', 'Sienkiewicza 2', 'adam.nowak@gmail.pl', 'Korytko'
-	EXEC TelcoUser_Insert '90010100002', 'Tomek', 'Wolski', 'Warszawa', 'Mickiewicza 3', 'tomek.wolski@interia.pl', 'Korytko'
-	EXEC TelcoUser_Insert '90010100003', 'Marek', 'Adamski', 'Krakow', 'Mickiewicza 4', 'marek.adamski@interia.pl', 'Korytko'
-	
+	EXEC ContactInformation_Insert '90010100000', 'Jan', 'Kowalski', 'Wroclaw', 'Sienkiewicza 1', 'jan.kowalski@interia.pl'
+	EXEC TelcoUser_Insert '90010100000', 'Korytko'
+
+	EXEC ContactInformation_Insert '90010100001', 'Adam', 'Nowak', 'Wroclaw', 'Sienkiewicza 2', 'adam.nowak@gmail.pl'
+	EXEC TelcoUser_Insert '90010100001', 'Korytko'
+
+	EXEC ContactInformation_Insert '90010100002', 'Tomek', 'Wolski', 'Warszawa', 'Mickiewicza 3', 'tomek.wolski@interia.pl'
+	EXEC TelcoUser_Insert '90010100002', 'Korytko'
+
+	EXEC ContactInformation_Insert '90010100003', 'Marek', 'Adamski', 'Krakow', 'Mickiewicza 4', 'marek.adamski@interia.pl'
+	EXEC TelcoUser_Insert '90010100003', 'Korytko'
+
 	IF @@ERROR <> 0
 		BEGIN
 			ROLLBACK
@@ -301,9 +323,6 @@ BEGIN TRANSACTION Transaction_AddTelcoUsers
 		END
 COMMIT
 GO
-
-
-
 
 -------------------------------------------------------------------------------
 -- Definicja stanu startowego bazy danych END
@@ -314,35 +333,36 @@ EXEC AddTelcoUsers
 SELECT * FROM [Telco_Wroclaw].dbo.Hardware
 SELECT * FROM [Telco_Wroclaw].dbo.Software
 SELECT * FROM [Telco_Wroclaw].dbo.Operator
-
--------------------------------------------------------------------------------
--- Kup nowe oprogramowanie i zaktualizuj partycje pasywne
----
-EXEC BuyNewVersionOfSoftwareAndSendToHardware 'Korytko'
-
-SELECT * FROM [Telco_Wroclaw].dbo.Hardware
-SELECT * FROM [Telco_Wroclaw].dbo.Software
-SELECT * FROM [Telco_Wroclaw].dbo.Operator
-
--------------------------------------------------------------------------------
--- Symuluj niepowodzenie aktualizacji oprogramowania ( zamiana aktywnej partycji z pasywna )
----
-EXEC SoftwareUpgrade 'Korytko', 10
-
-SELECT * FROM [Telco_Wroclaw].dbo.Hardware
-SELECT * FROM [Telco_Wroclaw].dbo.Software
-SELECT * FROM [Telco_Wroclaw].dbo.Operator
-
--------------------------------------------------------------------------------
--- Symuluj powodzenie aktualizacji oprogramowania ( zamiana aktywnej partycji z pasywna )
----
-EXEC SoftwareUpgrade 'Korytko', 1
-
-SELECT * FROM [Telco_Wroclaw].dbo.Hardware
-SELECT * FROM [Telco_Wroclaw].dbo.Software
-SELECT * FROM [Telco_Wroclaw].dbo.Operator
-
-CREATE UNIQUE INDEX TelcoWroclaw_Hardware_UniqueIndex_PC_and_SN
-ON [Telco_Wroclaw].dbo.Hardware (ProductCodeAndSerialNumber);
-
 SELECT * FROM [Telco_Wroclaw].dbo.TelcoUser
+SELECT * FROM [Telco_Wroclaw].dbo.TelcoWorker
+SELECT * FROM [Telco_Wroclaw].dbo.ContactInformation
+
+---------------------------------------------------------------------------------
+---- Kup nowe oprogramowanie i zaktualizuj partycje pasywne
+-----
+--EXEC BuyNewVersionOfSoftwareAndSendToHardware 'Korytko'
+
+--SELECT * FROM [Telco_Wroclaw].dbo.Hardware
+--SELECT * FROM [Telco_Wroclaw].dbo.Software
+--SELECT * FROM [Telco_Wroclaw].dbo.Operator
+
+---------------------------------------------------------------------------------
+---- Symuluj niepowodzenie aktualizacji oprogramowania ( zamiana aktywnej partycji z pasywna )
+-----
+--EXEC SoftwareUpgrade 'Korytko', 10
+
+--SELECT * FROM [Telco_Wroclaw].dbo.Hardware
+--SELECT * FROM [Telco_Wroclaw].dbo.Software
+--SELECT * FROM [Telco_Wroclaw].dbo.Operator
+
+---------------------------------------------------------------------------------
+---- Symuluj powodzenie aktualizacji oprogramowania ( zamiana aktywnej partycji z pasywna )
+-----
+--EXEC SoftwareUpgrade 'Korytko', 1
+
+--SELECT * FROM [Telco_Wroclaw].dbo.Hardware
+--SELECT * FROM [Telco_Wroclaw].dbo.Software
+--SELECT * FROM [Telco_Wroclaw].dbo.Operator
+
+--CREATE UNIQUE INDEX TelcoWroclaw_Hardware_UniqueIndex_PC_and_SN
+--ON [Telco_Wroclaw].dbo.Hardware (ProductCodeAndSerialNumber);
