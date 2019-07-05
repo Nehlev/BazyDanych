@@ -6,6 +6,9 @@ GO
 CREATE DATABASE [Telco_Wroclaw]
 GO
 
+EXEC Telco_Wroclaw.dbo.sp_changedbowner @loginame = N'sa', @map = false
+GO
+
 USE Telco_Wroclaw
 GO
 
@@ -27,6 +30,11 @@ CREATE TABLE [dbo].[Hardware] (
 	[Money] [int] NOT NULL,
 	[Owner] [char] (64) NOT NULL,
 	[Location] [char] (64) COLLATE Polish_CI_AS NOT NULL,
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[HardwareType] (
+	[Name] [char] (64) COLLATE Polish_CI_AS NOT NULL
 ) ON [PRIMARY]
 GO
 
@@ -62,7 +70,6 @@ GO
 --------------------------------------------------------------------------------
 -- Definicje kluczy glownych
 ---
-
 ALTER TABLE [dbo].[Operator] WITH NOCHECK ADD 
 	CONSTRAINT [PK_Operator_Name] PRIMARY KEY  CLUSTERED 
 	(
@@ -105,6 +112,13 @@ ALTER TABLE [dbo].[ContactInformation] WITH NOCHECK ADD
 	)  ON [PRIMARY] 
 GO
 
+ALTER TABLE [dbo].[HardwareType] WITH NOCHECK ADD 
+	CONSTRAINT [PK_HardwareType_Name] PRIMARY KEY  CLUSTERED 
+	(
+		[Name]
+	)  ON [PRIMARY] 
+GO
+
 -------------------------
 --------------------------------------------------------------------------------
 -- Definicje kluczy FK i innych ograniczeñ.
@@ -127,6 +141,12 @@ ALTER TABLE [dbo].[Hardware] ADD
 	(
 		[Owner]
 	) REFERENCES [dbo].[Operator] (
+		[Name]
+	),
+	CONSTRAINT [FK_HardwareType] FOREIGN KEY
+	(
+		[HwType]
+	) REFERENCES [dbo].[HardwareType] (
 		[Name]
 	)
 GO
@@ -185,6 +205,13 @@ UPDATE Operator
 SET
 	Money=@Money
 where Name=@Name
+GO
+
+CREATE PROC HardwareType_Insert
+@Name char(64)
+AS
+INSERT HardwareType(Name)
+VALUES (@Name)
 GO
 
 CREATE PROC Hardware_Insert
@@ -265,6 +292,8 @@ CREATE PROCEDURE CreateSiteFor(@OperatorName char(64))
 AS
 BEGIN TRANSACTION Transaction_CreateDatabaseState
 	EXEC Operator_Insert @OperatorName, 500
+
+	EXEC HardwareType_Insert 'MHA'
 
 	EXEC Software_Insert 'MHA', 1, 50
 	EXEC Software_Insert 'MHA', 2, 50
