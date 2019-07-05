@@ -373,27 +373,40 @@ GO
 ---------------------------------------------------------------------------------
 ---- Widok dla wyswietlania informacji o pracowniku
 -----
-CREATE VIEW TelcoUserWithContactInfo as SELECT
+CREATE VIEW [dbo].[TelcoUserWithContactInfo_View] WITH SCHEMABINDING as SELECT
 
 CONTACT.Pesel, CONTACT.Name, CONTACT.Surname, CONTACT.Address_City, CONTACT.Address_Street, CONTACT.Email, TELCO_USER.OperatorName
-FROM ContactInformation as CONTACT
-INNER JOIN TelcoUser TELCO_USER ON CONTACT.Pesel=TELCO_USER.Pesel
+FROM [dbo].[ContactInformation] as CONTACT
+INNER JOIN [dbo].[TelcoUser] TELCO_USER ON CONTACT.Pesel=TELCO_USER.Pesel
 GO
 
-SELECT * FROM TelcoUserWithContactInfo
+CREATE UNIQUE CLUSTERED INDEX TelcoUserWithContactInfo_View_Index ON [dbo].[TelcoUserWithContactInfo_View]
+(
+	[Pesel] ASC
+)
+GO
+
+SELECT * FROM TelcoUserWithContactInfo_View
 GO
 
 ---------------------------------------------------------------------------------
 ---- Widok dla wyswietlania informacji o uzytkowniku
 -----
-CREATE VIEW TelcoWorkerWithContactInfo as SELECT
+CREATE VIEW [dbo].[TelcoWorkerWithContactInfo_View] WITH SCHEMABINDING as SELECT
 
 CONTACT.Pesel, CONTACT.Name, CONTACT.Surname, CONTACT.Address_City, CONTACT.Address_Street, CONTACT.Email, TELCO_WORKER.Job
-FROM ContactInformation as CONTACT
-INNER JOIN TelcoWorker TELCO_WORKER ON CONTACT.Pesel=TELCO_WORKER.Pesel
+FROM [dbo].[ContactInformation] as CONTACT
+INNER JOIN [dbo].[TelcoWorker] TELCO_WORKER ON CONTACT.Pesel=TELCO_WORKER.Pesel
 GO
 
-SELECT * FROM TelcoWorkerWithContactInfo
+CREATE UNIQUE CLUSTERED INDEX TelcoWorkerWithContactInfo_View_Index ON [dbo].[TelcoWorkerWithContactInfo_View]
+(
+	[Pesel] ASC
+)
+GO
+
+SELECT * FROM TelcoWorkerWithContactInfo_View
+GO
 
 ---------------------------------------------------------------------------------
 ---- Kup nowe oprogramowanie i zaktualizuj partycje pasywne
