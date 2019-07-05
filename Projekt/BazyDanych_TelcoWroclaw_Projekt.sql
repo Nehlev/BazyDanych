@@ -44,6 +44,7 @@ CREATE TABLE [dbo].[TelcoUser] (
 	[Address_City] [nchar] (64) COLLATE Polish_CI_AS NOT NULL,
 	[Address_Street] [nchar] (64) COLLATE Polish_CI_AS NOT NULL,
 	[Email] [nchar] (64) COLLATE Polish_CI_AS NOT NULL,
+	[OperatorName] [char] (64) COLLATE Polish_CI_AS NOT NULL
 ) ON [PRIMARY]
 GO
 
@@ -118,6 +119,15 @@ ALTER TABLE [dbo].[Hardware] ADD
 	CONSTRAINT [FK_Owner] FOREIGN KEY 
 	(
 		[Owner]
+	) REFERENCES [dbo].[Operator] (
+		[Name]
+	)
+GO
+
+ALTER TABLE [dbo].[TelcoUser] ADD
+	CONSTRAINT [FK_TelcoUser_OperatorName] FOREIGN KEY
+	(
+		[OperatorName]
 	) REFERENCES [dbo].[Operator] (
 		[Name]
 	)
@@ -202,10 +212,11 @@ CREATE PROC TelcoUser_Insert
 @Surname nchar(64),
 @Address_City nchar(64),
 @Address_Street nchar(64),
-@Email nchar(64)
+@Email nchar(64),
+@OperatorName nchar(64)
 AS
-INSERT TelcoUser(Pesel, Name, Surname, Address_City, Address_Street, Email)
-VALUES (@Pesel, @Name, @Surname, @Address_City, @Address_Street, @Email)
+INSERT TelcoUser(Pesel, Name, Surname, Address_City, Address_Street, Email, OperatorName)
+VALUES (@Pesel, @Name, @Surname, @Address_City, @Address_Street, @Email, @OperatorName)
 GO
 
 CREATE PROC TelcoWorker_Insert
@@ -277,10 +288,10 @@ GO
 CREATE PROCEDURE AddTelcoUsers
 AS
 BEGIN TRANSACTION Transaction_AddTelcoUsers
-	EXEC TelcoUser_Insert '90010100000', 'Jan', 'Kowalski', 'Wroclaw', 'Sienkiewicza 1', 'jan.kowalski@interia.pl'
-	EXEC TelcoUser_Insert '90010100001', 'Adam', 'Nowak', 'Wroclaw', 'Sienkiewicza 2', 'adam.nowak@gmail.pl'
-	EXEC TelcoUser_Insert '90010100002', 'Tomek', 'Wolski', 'Warszawa', 'Mickiewicza 3', 'tomek.wolski@interia.pl'
-	EXEC TelcoUser_Insert '90010100003', 'Marek', 'Adamski', 'Krakow', 'Mickiewicza 4', 'marek.adamski@interia.pl'
+	EXEC TelcoUser_Insert '90010100000', 'Jan', 'Kowalski', 'Wroclaw', 'Sienkiewicza 1', 'jan.kowalski@interia.pl', 'Korytko'
+	EXEC TelcoUser_Insert '90010100001', 'Adam', 'Nowak', 'Wroclaw', 'Sienkiewicza 2', 'adam.nowak@gmail.pl', 'Korytko'
+	EXEC TelcoUser_Insert '90010100002', 'Tomek', 'Wolski', 'Warszawa', 'Mickiewicza 3', 'tomek.wolski@interia.pl', 'Korytko'
+	EXEC TelcoUser_Insert '90010100003', 'Marek', 'Adamski', 'Krakow', 'Mickiewicza 4', 'marek.adamski@interia.pl', 'Korytko'
 	
 	IF @@ERROR <> 0
 		BEGIN
@@ -291,13 +302,14 @@ BEGIN TRANSACTION Transaction_AddTelcoUsers
 COMMIT
 GO
 
-EXEC AddTelcoUsers
+
 
 
 -------------------------------------------------------------------------------
 -- Definicja stanu startowego bazy danych END
 ---
 EXEC CreateSiteFor 'Korytko'
+EXEC AddTelcoUsers
 
 SELECT * FROM [Telco_Wroclaw].dbo.Hardware
 SELECT * FROM [Telco_Wroclaw].dbo.Software
@@ -332,3 +344,5 @@ SELECT * FROM [Telco_Wroclaw].dbo.Operator
 
 CREATE UNIQUE INDEX TelcoWroclaw_Hardware_UniqueIndex_PC_and_SN
 ON [Telco_Wroclaw].dbo.Hardware (ProductCodeAndSerialNumber);
+
+SELECT * FROM [Telco_Wroclaw].dbo.TelcoUser
