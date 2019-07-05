@@ -338,13 +338,13 @@ CREATE PROCEDURE AddTelcoWorkers
 AS
 BEGIN TRANSACTION Transaction_AddTelcoWorkers
 	EXEC ContactInformation_Insert '90010100004', 'Jan', 'Kowalski', 'Wroclaw', 'Sienkiewicza 1', 'jan.kowalski@interia.pl'
-	EXEC TelcoWorker_Insert '90010100004', 'Korytko'
+	EXEC TelcoWorker_Insert '90010100004', 'Programmer'
 
 	EXEC ContactInformation_Insert '90010100005', 'Adam', 'Nowak', 'Wroclaw', 'Sienkiewicza 2', 'adam.nowak@gmail.pl'
-	EXEC TelcoWorker_Insert '90010100005', 'Korytko'
+	EXEC TelcoWorker_Insert '90010100005', 'Programmer'
 
 	EXEC ContactInformation_Insert '90010100006', 'Tomek', 'Wolski', 'Warszawa', 'Mickiewicza 3', 'tomek.wolski@interia.pl'
-	EXEC TelcoWorker_Insert '90010100006', 'Korytko'
+	EXEC TelcoWorker_Insert '90010100006', 'Tester'
 
 	IF @@ERROR <> 0
 		BEGIN
@@ -368,6 +368,32 @@ SELECT * FROM [Telco_Wroclaw].dbo.Operator
 SELECT * FROM [Telco_Wroclaw].dbo.TelcoUser
 SELECT * FROM [Telco_Wroclaw].dbo.TelcoWorker
 SELECT * FROM [Telco_Wroclaw].dbo.ContactInformation
+GO
+
+---------------------------------------------------------------------------------
+---- Widok dla wyswietlania informacji o pracowniku
+-----
+CREATE VIEW TelcoUserWithContactInfo as SELECT
+
+CONTACT.Pesel, CONTACT.Name, CONTACT.Surname, CONTACT.Address_City, CONTACT.Address_Street, CONTACT.Email, TELCO_USER.OperatorName
+FROM ContactInformation as CONTACT
+INNER JOIN TelcoUser TELCO_USER ON CONTACT.Pesel=TELCO_USER.Pesel
+GO
+
+SELECT * FROM TelcoUserWithContactInfo
+GO
+
+---------------------------------------------------------------------------------
+---- Widok dla wyswietlania informacji o uzytkowniku
+-----
+CREATE VIEW TelcoWorkerWithContactInfo as SELECT
+
+CONTACT.Pesel, CONTACT.Name, CONTACT.Surname, CONTACT.Address_City, CONTACT.Address_Street, CONTACT.Email, TELCO_WORKER.Job
+FROM ContactInformation as CONTACT
+INNER JOIN TelcoWorker TELCO_WORKER ON CONTACT.Pesel=TELCO_WORKER.Pesel
+GO
+
+SELECT * FROM TelcoWorkerWithContactInfo
 
 ---------------------------------------------------------------------------------
 ---- Kup nowe oprogramowanie i zaktualizuj partycje pasywne
